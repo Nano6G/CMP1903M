@@ -2,11 +2,20 @@
 
 namespace CMP1903M
 {
-    class Program
+    class Country
     {
-        static void Main(string[] args)
+        string name;
+        float population;
+
+        public void SetCountry(string CountryName, float CountryPopulation)
         {
-            Console.WriteLine("Hello World!");
+            name = CountryName;
+            population = CountryPopulation;
+        }
+
+        public string GetCountry()
+        {
+            return name;
         }
     }
 }
