@@ -8,23 +8,20 @@ namespace CMP1903M
     {
         string name;
         double population;
-        int vote;
+        string vote;
 
         public Country(string CountryName, string CountryPopulation)
         {
             name = CountryName;
             population = Convert.ToDouble(CountryPopulation);
-            vote = 0;
+            vote = "Abstain";
         }
 
-        public string GetCountry()
+        public List<String> GetCountryInfo()
         {
-            return name;
-        }
-
-        public string GetCountryPop()
-        {
-            return Convert.ToString(population) + "%";
+            string StringPopulation = Convert.ToString(population);
+            List<string> CountryInfo = new List<string>() { name, StringPopulation, vote };
+            return CountryInfo;
         }
     }
 
@@ -32,11 +29,40 @@ namespace CMP1903M
     {
         static void Main()
         {
+            List<Country> CountryObjects = SetupCountryObjects();
+
+            Console.WriteLine("EU Voting Calculator");
+            Console.WriteLine("1:\tView Countries, Population and Votes\n2:\tChange a Countries Vote\n3:\tCheck Vote Status\n\nEnter your option:");
+            string UserOption = Console.ReadLine();
+
+            if (UserOption == "1")
+            {
+                DisplayCountries(CountryObjects);
+            }
+            else if (UserOption == "2")
+            {
+
+            }
+            else if (UserOption == "3")
+            {
+
+            }
+            else
+            {
+                Console.WriteLine("Please enter a valid option");
+                Main();
+            }
+
+        }
+        
+         
+        static List<Country> SetupCountryObjects()
+        {
             string line;
 
-            List<Country> Countrys = new List<Country>();
+            List<Country> CountryObjects = new List<Country>();
 
-            System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\willz\Desktop\OOP\CMP1903M\CMP1903M\Countries.txt");
+            System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\willz\Desktop\OOP Assignment 1\CMP1903M\CMP1903M\Countries.txt");
             //System.IO.StreamReader file = new System.IO.StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "\\Countries.txt")); 
             //System.IO.StreamReader file = new System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Countries.txt"));
 
@@ -46,14 +72,19 @@ namespace CMP1903M
             {
                 //line_strings.Add(line);
                 string[] CountryDetails = line.Split(",");
-                Countrys.Add(new Country(CountryDetails[0], CountryDetails[1]));
+                CountryObjects.Add(new Country(CountryDetails[0], CountryDetails[1]));
             }
 
-            Console.WriteLine("Country" + " ".PadLeft(13) + "Population");
+            return CountryObjects;
+        }
+        
 
-            foreach(Country x in Countrys)
+        static void DisplayCountries(List<Country> CountryObjects)
+        {
+            Console.WriteLine("\nCountry" + " ".PadLeft(13) + "Population" + " ".PadLeft(5) + "Vote");
+            foreach (Country x in CountryObjects)
             {
-                Console.WriteLine(x.GetCountry() + " ".PadLeft(20-x.GetCountry().Length) + x.GetCountryPop());
+                Console.WriteLine(x.GetCountryInfo()[0] + " ".PadLeft(20 - x.GetCountryInfo()[0].Length) + x.GetCountryInfo()[1] + " ".PadLeft(15 - x.GetCountryInfo()[1].Length) + x.GetCountryInfo()[2]);
             }
         }
     }
