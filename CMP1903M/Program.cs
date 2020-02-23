@@ -97,7 +97,10 @@ namespace CMP1903M
         {
             List<Country> CountryObjects = new List<Country>();
 
-            System.IO.StreamReader file = new System.IO.StreamReader(@"C:\Users\willz\Desktop\OOP Assignment 1\CMP1903M\CMP1903M\Countries.txt");
+            string directory = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
+            string path = Path.GetFullPath(Path.Combine(directory, @"..\"));
+
+            System.IO.StreamReader file = new System.IO.StreamReader(path + @"/Countries.txt");
             //System.IO.StreamReader file = new System.IO.StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "\\Countries.txt")); 
             //System.IO.StreamReader file = new System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Countries.txt"));
 
