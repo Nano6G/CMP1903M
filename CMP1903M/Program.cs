@@ -9,14 +9,12 @@ namespace CMP1903M
         private string Name;
         public double Population;
         public string Vote;
-        private double VoteWorth;
 
         public Country(string CountryName, string CountryPopulation)
         {
             Name = CountryName;
             Population = Convert.ToDouble(CountryPopulation);
             Vote = "Abstain";
-            VoteWorth = 0;
         }
 
         public List<String> GetCountryInfo()
@@ -28,7 +26,7 @@ namespace CMP1903M
 
         public void ChangeVote()
         {
-            Console.WriteLine("Enter the vote of this country (Yes/No/Abstain):");
+            Console.WriteLine("Enter the vote of this country (Yes/No/Abstain) or enter C to cancel the vote change:");
             string CountryVote = Console.ReadLine().ToLower();
             if (CountryVote == "yes")
             {
@@ -41,6 +39,10 @@ namespace CMP1903M
             else if (CountryVote == "abstain")
             {
                 Vote = "Abstain";
+            }
+            else if (CountryVote == "c")
+            {
+                return;
             }
             else
             {
@@ -58,14 +60,12 @@ namespace CMP1903M
 
             Menu(CountryObjects);
 
-            double PopVotes = 0.00;
-
         }
         
         static void Menu(List<Country> CountryObjects)
         {
             Console.WriteLine("\n\nEU Voting Calculator");
-            Console.WriteLine("1:\tView Countries, Population and Votes\n2:\tChange a Countries Vote\n3:\tCheck Vote Status\n\nEnter your option:");
+            Console.WriteLine("1:\tView Countries, Population and Votes\n2:\tChange a Countries Vote\n3:\tCheck Vote Status\n4:\tExit the Program\n\nEnter your option:");
             string UserOption = Console.ReadLine();
 
             if (UserOption == "1")
@@ -82,10 +82,14 @@ namespace CMP1903M
             {
                 CheckVoteStatus(CountryObjects);
             }
+            else if (UserOption == "4")
+            {
+                Environment.Exit(0);
+            }
             else
             {
                 Console.WriteLine("Please enter a valid option");
-                Main();
+                Menu(CountryObjects);
             }
         }
          
@@ -127,7 +131,6 @@ namespace CMP1903M
                 if (x.GetCountryInfo()[0].ToLower() == CountryName)
                 {
                     x.ChangeVote();
-                    Console.WriteLine(x.GetCountryInfo()[2]);
                 }
             }
             Menu(CountryObjects);
@@ -157,13 +160,13 @@ namespace CMP1903M
                 VoteResult = "Approved";
             }
 
-            Console.WriteLine("Member States\nMinimum “Yes” required for adoption: (55%) 15");
+            Console.WriteLine("\nMember States\nMinimum “Yes” required for adoption: (55%) 15");
             Console.WriteLine("Yes: " + TotalCountryVotes + "\nNo: " + (27-TotalCountryVotes));
-            Console.WriteLine("\nFinal Result: " + VoteResult);
 
-            Console.WriteLine("\n\n% Population\nMinimum “Yes” required for adoption: 65%");
+            Console.WriteLine("\n% Population\nMinimum “Yes” required for adoption: 65%");
             Console.WriteLine("Yes: " + TotalPopulationVotes + "\nNo: " + (100 - TotalPopulationVotes));
-            Console.WriteLine("\nFinal Result: " + VoteResult);
+
+            Console.WriteLine("\n\nFinal Result: " + VoteResult);
 
             Menu(CountryObjects);
         }
