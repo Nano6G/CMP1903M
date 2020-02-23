@@ -101,8 +101,6 @@ namespace CMP1903M
             string path = Path.GetFullPath(Path.Combine(directory, @"..\"));
 
             System.IO.StreamReader file = new System.IO.StreamReader(path + @"/Countries.txt");
-            //System.IO.StreamReader file = new System.IO.StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "\\Countries.txt")); 
-            //System.IO.StreamReader file = new System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Countries.txt"));
 
             string Line;
 
