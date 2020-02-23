@@ -7,14 +7,16 @@ namespace CMP1903M
     class Country
     {
         private string Name;
-        private double Population;
+        public double Population;
         public string Vote;
+        private double VoteWorth;
 
         public Country(string CountryName, string CountryPopulation)
         {
             Name = CountryName;
             Population = Convert.ToDouble(CountryPopulation);
             Vote = "Abstain";
+            VoteWorth = 0;
         }
 
         public List<String> GetCountryInfo()
@@ -56,11 +58,13 @@ namespace CMP1903M
 
             Menu(CountryObjects);
 
+            double PopVotes = 0.00;
+
         }
         
         static void Menu(List<Country> CountryObjects)
         {
-            Console.WriteLine("EU Voting Calculator");
+            Console.WriteLine("\n\nEU Voting Calculator");
             Console.WriteLine("1:\tView Countries, Population and Votes\n2:\tChange a Countries Vote\n3:\tCheck Vote Status\n\nEnter your option:");
             string UserOption = Console.ReadLine();
 
@@ -76,7 +80,7 @@ namespace CMP1903M
             }
             else if (UserOption == "3")
             {
-
+                CheckVoteStatus(CountryObjects);
             }
             else
             {
@@ -126,6 +130,41 @@ namespace CMP1903M
                     Console.WriteLine(x.GetCountryInfo()[2]);
                 }
             }
+            Menu(CountryObjects);
+        }
+
+        static void CheckVoteStatus(List<Country> CountryObjects)
+        {
+            double TotalPopulationVotes = 0;
+            int TotalCountryVotes = 0;
+            string VoteResult = "Rejected";
+
+            foreach (Country x in CountryObjects)
+            {
+                if (x.GetCountryInfo()[2] == "Yes")
+                {
+                    TotalPopulationVotes += x.Population;
+                    TotalCountryVotes += 1;
+                }
+            }
+
+            if (TotalPopulationVotes > 65)
+            {
+                VoteResult = "Approved";
+            }
+            else if (TotalCountryVotes > 15)
+            {
+                VoteResult = "Approved";
+            }
+
+            Console.WriteLine("Member States\nMinimum “Yes” required for adoption: (55%) 15");
+            Console.WriteLine("Yes: " + TotalCountryVotes + "\nNo: " + (27-TotalCountryVotes));
+            Console.WriteLine("\nFinal Result: " + VoteResult);
+
+            Console.WriteLine("\n\n% Population\nMinimum “Yes” required for adoption: 65%");
+            Console.WriteLine("Yes: " + TotalPopulationVotes + "\nNo: " + (100 - TotalPopulationVotes));
+            Console.WriteLine("\nFinal Result: " + VoteResult);
+
             Menu(CountryObjects);
         }
     }
