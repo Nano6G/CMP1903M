@@ -10,6 +10,7 @@ namespace CMP1903M
         public double Population;
         public string Vote;
 
+        //Constructor for Country class to set the details of each instantiation
         public Country(string CountryName, string CountryPopulation)
         {
             Name = CountryName;
@@ -17,6 +18,7 @@ namespace CMP1903M
             Vote = "Abstain";
         }
 
+        //Function to return all the information about the country
         public List<String> GetCountryInfo()
         {
             string StringPopulation = Convert.ToString(Population);
@@ -24,6 +26,7 @@ namespace CMP1903M
             return CountryInfo;
         }
 
+        //Self-explainatory function to change the vote of a country according to user input
         public void ChangeVote()
         {
             Console.WriteLine("Enter the vote of this country (Yes/No/Abstain) or enter C to cancel the vote change:");
@@ -54,15 +57,18 @@ namespace CMP1903M
 
     class MainClass
     {
-        static void Main()
+        //Initial function to setup the country objects and display the main menu
+        private static void Main()
         {
             List<Country> CountryObjects = SetupCountryObjects();
 
+            Console.WriteLine("Welcome to the EU Voting Calculator");
             Menu(CountryObjects);
 
         }
         
-        static void Menu(List<Country> CountryObjects)
+        //Menu function to display the options to the user and follows their input
+        private static void Menu(List<Country> CountryObjects)
         {
             Console.WriteLine("\n\nEU Voting Calculator");
             Console.WriteLine("1:\tView Countries, Population and Votes\n2:\tChange a Countries Vote\n3:\tCheck Vote Status\n4:\tExit the Program\n\nEnter your option:");
@@ -92,20 +98,21 @@ namespace CMP1903M
                 Menu(CountryObjects);
             }
         }
-         
-        static List<Country> SetupCountryObjects()
+        
+        private static List<Country> SetupCountryObjects()
         {
             List<Country> CountryObjects = new List<Country>();
 
+            //Gets the current working directory
             string directory = Path.GetDirectoryName(Path.GetDirectoryName(System.IO.Directory.GetCurrentDirectory()));
+            //Backs up the working directory by one folder
             string path = Path.GetFullPath(Path.Combine(directory, @"..\"));
-
+            //Opens the Countries text file
             System.IO.StreamReader file = new System.IO.StreamReader(path + @"/Countries.txt");
-            //System.IO.StreamReader file = new System.IO.StreamReader(Path.Combine(Directory.GetCurrentDirectory(), "\\Countries.txt")); 
-            //System.IO.StreamReader file = new System.IO.Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory.ToString(), "Countries.txt"));
 
             string Line;
 
+            //Reads through the Countries file line-by-line and creates a new country object for each line, using the information given
             while ((Line = file.ReadLine()) != null)
             {
                 //line_strings.Add(line);
@@ -116,8 +123,8 @@ namespace CMP1903M
             return CountryObjects;
         }
         
-
-        static void DisplayCountries(List<Country> CountryObjects)
+        //Function that iterates through the CoutryObjects list and displays each country and its information to the user
+        private static void DisplayCountries(List<Country> CountryObjects)
         {
             Console.WriteLine("\nCountry" + " ".PadLeft(13) + "Population" + " ".PadLeft(6) + "Vote");
             foreach (Country x in CountryObjects)
@@ -127,7 +134,7 @@ namespace CMP1903M
             Menu(CountryObjects);
         }
 
-        static void ChangeCountryVote(string CountryName, List<Country> CountryObjects)
+        private static void ChangeCountryVote(string CountryName, List<Country> CountryObjects)
         {
             foreach (Country x in CountryObjects)
             {
@@ -139,12 +146,14 @@ namespace CMP1903M
             Menu(CountryObjects);
         }
 
-        static void CheckVoteStatus(List<Country> CountryObjects)
+        private static void CheckVoteStatus(List<Country> CountryObjects)
         {
             double TotalPopulationVotes = 0;
             int TotalCountryVotes = 0;
+            //VoteResult variable initialised to "Rejected" and change if not the case
             string VoteResult = "Rejected";
 
+            //Counts how many countries voted "yes"
             foreach (Country x in CountryObjects)
             {
                 if (x.GetCountryInfo()[2] == "Yes")
@@ -154,6 +163,7 @@ namespace CMP1903M
                 }
             }
 
+            //Determines if the current vote is approved or not using the "qualified majority" rule
             if (TotalPopulationVotes > 65)
             {
                 VoteResult = "Approved";
@@ -163,6 +173,7 @@ namespace CMP1903M
                 VoteResult = "Approved";
             }
 
+            //Prints the destails and result of the vote to the user
             Console.WriteLine("\nMember States\nMinimum “Yes” required for adoption: (55%) 15");
             Console.WriteLine("Yes: " + TotalCountryVotes + "\nNo: " + (27-TotalCountryVotes));
 
