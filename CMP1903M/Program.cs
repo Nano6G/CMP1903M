@@ -140,6 +140,7 @@ namespace CMP1903M
             {
                 if (x.GetCountryInfo()[0].ToLower() == CountryName)
                 {
+                    //Calls the ChangeVote function in the Country class
                     x.ChangeVote();
                 }
             }
